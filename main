@@ -1,0 +1,43 @@
+class PhishingAnalyzer:
+    def __init__(self, suspicious_keywords=None):
+        if suspicious_keywords is None:
+            self.suspicious_keywords = [
+                "urgent action required",
+                "verify your account",
+                "security alert",
+                "unauthorized access",
+                "click here immediately",
+                "limited time offer",
+                "your account will be suspended",
+                "password reset required",
+                "confidential information",
+            ]
+        else:
+            self.suspicious_keywords = suspicious_keywords
+
+    def analyze(self, email_body):
+        """
+        Analyzes the email body for the presence of suspicious keywords.
+        """
+        email_body_lower = email_body.lower()
+        found_keywords = [keyword for keyword in self.suspicious_keywords if keyword in email_body_lower]
+        return found_keywords
+
+# --- Example Usage ---
+if __name__ == "__main__":
+    analyzer = PhishingAnalyzer()
+
+    suspicious_emails = [
+        "Urgent action required! Your account has been compromised. Click here immediately to verify.",
+        "Dear Customer, We have detected unauthorized access to your account. Please reset your password.",
+        "Limited time offer! Claim your free gift now by clicking this link.",
+        "This is a normal email.",
+    ]
+
+    print("Phishing Analysis Results:")
+    for email in suspicious_emails:
+        keywords = analyzer.analyze(email)
+        if keywords:
+            print(f"'{email[:50]}...' potentially suspicious. Found keywords: {keywords}")
+        else:
+            print(f"'{email[:50]}...' appears normal.")
